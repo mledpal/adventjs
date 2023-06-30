@@ -12,11 +12,20 @@ const maxCities = 3
 
 
 function getMaxGifts(giftsCities, maxGifts, maxCities) {  
-  giftsCities.sort((a,b) => b-a);
   
-  console.log(giftsCities)
-  
-  return 0
+  // Creamos una potencia de un conjunto
+  const gifts = giftsCities.reduce((a,v) => a.concat(a.map(d => [v].concat(d))), [[]])
+                  
+                  .filter(gifts => gifts.length <= maxCities && gifts.length)
+                  
+                  // Sumamos todos los regalos de cada conjunto
+                  .map(gifts => gifts.reduce((acum, gifts) => acum + gifts )) 
+                 
+                  // Nos quedamos con los que no superan maxGifts
+                  .filter(gifts => gifts <= maxGifts);
+
+  // Retornamos el valor del máximo o de 0 si no se cumplen las condiciones
+  return gifts.length ? Math.max(...gifts) : 0  
 }
 
 
